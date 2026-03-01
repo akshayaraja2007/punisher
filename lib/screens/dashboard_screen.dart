@@ -6,10 +6,12 @@ class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<DashboardScreen> createState() =>
+      _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState
+    extends State<DashboardScreen> {
   late DisciplineState state;
 
   @override
@@ -24,30 +26,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text("DASHBOARD"),
+        title: const Text("Dashboard"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
           children: [
-            Text(
-              "Violations: ${state.violationCount}",
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
+            Text("Violations: ${state.violationCount}",
+                style: const TextStyle(
+                    color: Colors.white)),
             const SizedBox(height: 10),
             Text(
-              "Total Punishments: ${state.totalPunishments}",
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
+                "Total Punishments: ${state.totalPunishments}",
+                style: const TextStyle(
+                    color: Colors.white)),
             const SizedBox(height: 10),
             Text(
-              "Score: ${state.disciplineScore}",
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
+                "Total Pushups Done: ${state.totalPushupsDone}",
+                style: const TextStyle(
+                    color: Colors.white)),
             const SizedBox(height: 20),
             SwitchListTile(
               title: const Text("Hardcore Mode",
-                  style: TextStyle(color: Colors.white)),
+                  style: TextStyle(
+                      color: Colors.white)),
               value: state.hardcoreMode,
               onChanged: (val) async {
                 state.hardcoreMode = val;

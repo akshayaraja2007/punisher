@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/discipline_state.dart';
 import '../core/escalation_engine.dart';
+import '../storage/hive_service.dart';
 
 class PunishmentScreen extends StatelessWidget {
   final DisciplineState state;
@@ -17,11 +18,14 @@ class PunishmentScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment:
+                MainAxisAlignment.center,
             children: [
               const Text(
                 "VIOLATION",
-                style: TextStyle(color: Colors.white, fontSize: 22),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22),
               ),
               const SizedBox(height: 20),
               Text(
@@ -29,7 +33,8 @@ class PunishmentScreen extends StatelessWidget {
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 28,
-                    fontWeight: FontWeight.bold),
+                    fontWeight:
+                        FontWeight.bold),
               ),
               const SizedBox(height: 30),
               Text(
@@ -37,16 +42,18 @@ class PunishmentScreen extends StatelessWidget {
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 40,
-                    fontWeight: FontWeight.bold),
+                    fontWeight:
+                        FontWeight.bold),
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  minimumSize: const Size(double.infinity, 50),
-                ),
-                onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                onPressed: () async {
+                  state.totalPushupsDone += reps;
+                  await HiveService.saveState(state);
+                  Navigator.popUntil(
+                      context,
+                      (route) =>
+                          route.isFirst);
                 },
                 child: const Text("COMPLETED"),
               )

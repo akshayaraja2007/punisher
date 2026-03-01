@@ -20,6 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
     state = HiveService.loadState();
   }
 
+  void refresh() {
+    setState(() {
+      state = HiveService.loadState();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,47 +39,66 @@ class _HomeScreenState extends State<HomeScreen> {
               "PUNISHER",
               style: TextStyle(
                 color: Colors.red,
-                fontSize: 34,
+                fontSize: 36,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             Text(
               "Discipline Score: ${state.disciplineScore}",
               style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
+            LinearProgressIndicator(
+              value: state.waterProgress > 1
+                  ? 1
+                  : state.waterProgress,
+              backgroundColor: Colors.grey[800],
+              color: Colors.blue,
+              minHeight: 10,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Water: ${state.waterIntake}ml / ${state.dailyWaterTarget}ml",
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () async {
+                state.waterIntake += 250;
+                await HiveService.saveState(state);
+                refresh();
+              },
+              child: const Text("+250ml"),
+            ),
+            const SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                minimumSize: const Size(double.infinity, 50),
-              ),
+                  backgroundColor: Colors.red,
+                  minimumSize:
+                      const Size(double.infinity, 50)),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ScrollScreen(state: state),
-                  ),
-                ).then((_) => setState(() {
-                      state = HiveService.loadState();
-                    }));
+                      builder: (_) =>
+                          ScrollScreen(state: state)),
+                ).then((_) => refresh());
               },
               child: const Text("ENTER SCROLL MODE"),
             ),
             const SizedBox(height: 15),
             OutlinedButton(
               style: OutlinedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-              ),
+                  minimumSize:
+                      const Size(double.infinity, 50)),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const DashboardScreen(),
-                  ),
-                ).then((_) => setState(() {
-                      state = HiveService.loadState();
-                    }));
+                      builder: (_) =>
+                          const DashboardScreen()),
+                ).then((_) => refresh());
               },
               child: const Text("DASHBOARD"),
             ),

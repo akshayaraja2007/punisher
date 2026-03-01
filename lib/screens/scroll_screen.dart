@@ -29,7 +29,6 @@ class _ScrollScreenState extends State<ScrollScreen> {
 
     widget.state.violationCount++;
     widget.state.totalPunishments++;
-    widget.state.lastSession = DateTime.now();
 
     HiveService.saveState(widget.state);
 
@@ -53,12 +52,11 @@ class _ScrollScreenState extends State<ScrollScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text("SCROLL MODE"),
+        title: const Text("Scroll Mode"),
       ),
       body: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           checkTimeLimit();
-
           if (notification is ScrollUpdateNotification) {
             scrollCount++;
             if (scrollCount > 25) {
@@ -68,7 +66,6 @@ class _ScrollScreenState extends State<ScrollScreen> {
           return true;
         },
         child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
           itemCount: 60,
           itemBuilder: (context, index) {
             return Container(
@@ -76,14 +73,14 @@ class _ScrollScreenState extends State<ScrollScreen> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(14),
+                borderRadius:
+                    BorderRadius.circular(14),
               ),
               child: Text(
                 "Future You is watching.\nScroll $index",
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                    color: Colors.white,
+                    fontSize: 16),
               ),
             );
           },
