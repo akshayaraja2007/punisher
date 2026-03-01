@@ -15,25 +15,32 @@ class ScrollScreen extends StatefulWidget {
 class _ScrollScreenState extends State<ScrollScreen> {
   int scrollCount = 0;
 
+  void triggerViolation() {
+    widget.state.violationCount++;
+    widget.state.totalPunishments++;
+
+    // Save without awaiting (cannot use async in onNotification)
+    HiveService.saveState(widget.state);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PunishmentScreen(state: widget.state),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: NotificationListener<ScrollNotification>(
-        onNotification: (notification) async {
+        onNotification: (notification) {
           if (notification is ScrollUpdateNotification) {
             scrollCount++;
-            if (scrollCount > 25) {
-              widget.state.violationCount++;
-              widget.state.totalPunishments++;
-              await HiveService.saveState(widget.state);
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => PunishmentScreen(state: widget.state),
-                ),
-              );
+            if (scrollCount > 25) {
+              triggerViolation();
             }
           }
           return true;
@@ -44,10 +51,16 @@ class _ScrollScreenState extends State<ScrollScreen> {
             return Container(
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(20),
-              color: Colors.grey[900],
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Text(
-                "Focus > Distraction\nScroll $index",
-                style: const TextStyle(color: Colors.white),
+                "Discipline > Distraction\nScroll $index",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
             );
           },
