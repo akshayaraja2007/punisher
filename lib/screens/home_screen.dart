@@ -25,16 +25,29 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              "PUNISHER",
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
             Text(
               "Discipline Score: ${state.disciplineScore}",
-              style: const TextStyle(color: Colors.white, fontSize: 22),
+              style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 40),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                minimumSize: const Size(double.infinity, 50),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -45,10 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       state = HiveService.loadState();
                     }));
               },
-              child: const Text("Start Scroll Mode"),
+              child: const Text("ENTER SCROLL MODE"),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
+            const SizedBox(height: 15),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 50),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -59,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       state = HiveService.loadState();
                     }));
               },
-              child: const Text("Dashboard"),
+              child: const Text("DASHBOARD"),
             ),
           ],
         ),

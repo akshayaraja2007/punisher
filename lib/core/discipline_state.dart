@@ -2,11 +2,13 @@ class DisciplineState {
   int violationCount;
   int totalPunishments;
   bool hardcoreMode;
+  DateTime? lastSession;
 
   DisciplineState({
     required this.violationCount,
     required this.totalPunishments,
     required this.hardcoreMode,
+    this.lastSession,
   });
 
   int get disciplineScore {
@@ -19,6 +21,7 @@ class DisciplineState {
       'violationCount': violationCount,
       'totalPunishments': totalPunishments,
       'hardcoreMode': hardcoreMode,
+      'lastSession': lastSession?.toIso8601String(),
     };
   }
 
@@ -27,6 +30,9 @@ class DisciplineState {
       violationCount: map['violationCount'] ?? 0,
       totalPunishments: map['totalPunishments'] ?? 0,
       hardcoreMode: map['hardcoreMode'] ?? false,
+      lastSession: map['lastSession'] != null
+          ? DateTime.parse(map['lastSession'])
+          : null,
     );
   }
 }

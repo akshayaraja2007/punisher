@@ -14,30 +14,44 @@ class PunishmentScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.red[900],
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "LEVEL ${state.violationCount}",
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 24),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "$reps PUSHUPS",
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              child: const Text("Completed"),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "VIOLATION",
+                style: TextStyle(color: Colors.white, fontSize: 22),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "LEVEL ${state.violationCount}",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
+              Text(
+                "$reps PUSHUPS",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
+                child: const Text("COMPLETED"),
+              )
+            ],
+          ),
         ),
       ),
     );

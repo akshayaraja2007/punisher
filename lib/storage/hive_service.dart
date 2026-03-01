@@ -9,11 +9,6 @@ class HiveService {
     await Hive.openBox(boxName);
   }
 
-  static Future saveState(DisciplineState state) async {
-    final box = Hive.box(boxName);
-    await box.put("state", state.toMap());
-  }
-
   static DisciplineState loadState() {
     final box = Hive.box(boxName);
     final data = box.get("state");
@@ -26,6 +21,12 @@ class HiveService {
       );
     }
 
-    return DisciplineState.fromMap(Map<String, dynamic>.from(data));
+    return DisciplineState.fromMap(
+        Map<String, dynamic>.from(data));
+  }
+
+  static Future saveState(DisciplineState state) async {
+    final box = Hive.box(boxName);
+    await box.put("state", state.toMap());
   }
 }

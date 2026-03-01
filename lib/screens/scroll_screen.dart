@@ -14,12 +14,23 @@ class ScrollScreen extends StatefulWidget {
 
 class _ScrollScreenState extends State<ScrollScreen> {
   int scrollCount = 0;
+  bool triggered = false;
+  late DateTime startTime;
+
+  @override
+  void initState() {
+    super.initState();
+    startTime = DateTime.now();
+  }
 
   void triggerViolation() {
+    if (triggered) return;
+    triggered = true;
+
     widget.state.violationCount++;
     widget.state.totalPunishments++;
+    widget.state.lastSession = DateTime.now();
 
-    // Save without awaiting (cannot use async in onNotification)
     HiveService.saveState(widget.state);
 
     Navigator.pushReplacement(
@@ -30,15 +41,26 @@ class _ScrollScreenState extends State<ScrollScreen> {
     );
   }
 
+  void checkTimeLimit() {
+    if (DateTime.now().difference(startTime).inMinutes >= 5) {
+      triggerViolation();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text("SCROLL MODE"),
+      ),
       body: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
+          checkTimeLimit();
+
           if (notification is ScrollUpdateNotification) {
             scrollCount++;
-
             if (scrollCount > 25) {
               triggerViolation();
             }
@@ -46,17 +68,18 @@ class _ScrollScreenState extends State<ScrollScreen> {
           return true;
         },
         child: ListView.builder(
-          itemCount: 50,
+          physics: const BouncingScrollPhysics(),
+          itemCount: 60,
           itemBuilder: (context, index) {
             return Container(
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
               ),
               child: Text(
-                "Discipline > Distraction\nScroll $index",
+                "Future You is watching.\nScroll $index",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

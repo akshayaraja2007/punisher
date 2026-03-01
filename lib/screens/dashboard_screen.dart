@@ -22,6 +22,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text("DASHBOARD"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -36,6 +40,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
             const SizedBox(height: 10),
+            Text(
+              "Score: ${state.disciplineScore}",
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            const SizedBox(height: 20),
             SwitchListTile(
               title: const Text("Hardcore Mode",
                   style: TextStyle(color: Colors.white)),
